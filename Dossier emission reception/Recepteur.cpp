@@ -11,8 +11,8 @@
 #define PIN_LED_GREEN 3 // D3
 #define PIN_LED_BLUE 4  // D4
 
-#define PIN_RF_CE 9  // D9 = Chip Enable (CE) for nRF24L01+
-#define PIN_RF_CS 10 // D10 = Chip Select (CS) for nRF24L01+
+#define PIN_RF_CE 7 // D7 = Chip Enable (CE) for nRF24L01+
+#define PIN_RF_CS 8 // D8 = Chip Select (CS) for nRF24L01+
 
 #define CHANNEL_READ 123456789  // Opposite of the Remote code
 #define CHANNEL_WRITE 987654321 // Opposite of the Remote code
@@ -35,7 +35,7 @@ bool radioReady = false;
 void setup()
 {
   // Initialise Serial first
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("Recepteur RF-NANO");
   // Pin modes
   pinMode(PIN_LED_RED, OUTPUT);

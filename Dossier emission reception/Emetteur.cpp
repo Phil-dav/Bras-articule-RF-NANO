@@ -15,8 +15,8 @@
 #define PIN_BTN_GREEN 6 // D6
 #define PIN_BTN_BLUE 7  // D7
 
-#define PIN_RF_CE 9  // D9 = Chip Enable (CE) for nRF24L01+
-#define PIN_RF_CS 10 // D10 = Chip Select (CS) for nRF24L01+
+#define PIN_RF_CE 7  // D7 = Chip Enable (CE) for nRF24L01+
+#define PIN_RF_CS 8 // D8 = Chip Select (CS) for nRF24L01+
 
 #define CHANNEL_READ 987654321
 #define CHANNEL_WRITE 123456789

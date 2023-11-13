@@ -23,21 +23,22 @@ int mov_x = 90;
 int mov_y = 90;
 int mov_x1 = 90;
 int mov_y1 = 90;
-int vitesse = 15;
-int pas = 5;
+int vitesse = 5;
+int pas = 10;
 
 // twelve servo objects can be created on most boards
 Servo myservoX; // create servo object to control a servo
 Servo myservoY;
 Servo myservoX1;
 Servo myservoY1;
+
 void setup()
 {
   Serial.begin(9600);
-  myservoX.attach(8); // attache le servo sur la broche 9 à l'objet servo
-  myservoY.attach(9);
-  myservoX1.attach(10);
-  myservoY1.attach(11);
+  myservoX.attach(8);   // Tourelle
+  myservoY.attach(9);   // Bras moteur
+  myservoX1.attach(10); // Bras pince
+  myservoY1.attach(11); // Pince
 }
 
 void loop()
@@ -48,18 +49,27 @@ void loop()
   value_Y1 = analogRead(VRY_PIN1);
 
   value_X = map(value_X, 0, 1023, 0, 180); // met à l'echelle les valeurs de 0 à 1023 --> 0 à 180
-  Serial.println(value_X);
+  // Serial.println(value_X);
   value_Y = map(value_Y, 0, 1023, 0, 180);
 
   value_X1 = map(value_X1, 0, 1023, 0, 180);
 
   value_Y1 = map(value_Y1, 0, 1023, 0, 180);
 
-//--------------------------------- Axe X---------------------------------
+  //--------------------------------- Axe X (tourelle)---------------------------------
   if (value_X > 95) // avance sur l'axe "X"
   {
+
+    if (value_X > 150) // Vitesse variable suivant position joystik lente d"buit puis plus rapide
+    {
+      pas = 2;
+    }
+    else
+    {
+      pas = 5;
+    }
     mov_x = mov_x + pas;
-    delay(vitesse);
+
     if (mov_x > 179)
     {
       mov_x = 180;
@@ -68,14 +78,23 @@ void loop()
 
   if (value_X < 85) // recule sur l'axe "X"
   {
+    if (value_X < 50)
+    {
+      pas = 2;
+    }
+    else
+    {
+      pas = 5;
+    }
     mov_x = mov_x - pas;
+
     delay(vitesse);
     if (mov_x < 1)
     {
       mov_x = 0;
     }
   }
-  //--------------------------------- Axe Y---------------------------------
+  //--------------------------------- Axe Y (bras moteur) ---------------------------------
   if (value_Y > 95) // avance sur l'axe "Y"
   {
     mov_y = mov_y + pas;
@@ -95,10 +114,10 @@ void loop()
       mov_y = 50;
     }
   }
-  //--------------------------------- Axe X1---------------------------------
+  //--------------------------------- Axe X1 (bras pince)---------------------------------
   if (value_X1 > 95) // avance sur l'axe "X1"
   {
-    mov_x1 = mov_x1 + pas;
+    mov_x1 = mov_x1 - pas;
     delay(vitesse);
     if (mov_x1 > 179)
     {
@@ -108,14 +127,14 @@ void loop()
 
   if (value_X1 < 85) // recule sur l'axe "X1"
   {
-    mov_x1 = mov_x1 - pas;
+    mov_x1 = mov_x1 + pas;
     delay(vitesse);
     if (mov_x1 < 1)
     {
       mov_x1 = 0;
     }
   }
-  //--------------------------------- Axe Y1---------------------------------
+  //--------------------------------- Axe Y1 (Pince)---------------------------------
   if (value_Y1 > 95) // avance sur l'axe "Y1"
   {
     mov_y1 = mov_y1 + pas;
@@ -135,16 +154,16 @@ void loop()
       mov_y1 = 0;
     }
   }
-  // rotation
+  // tourelle
   myservoX.write(mov_x); // dire au servo d'aller en position dans la variable 'pos'
   delay(15);             // attend 15 ms pour que le servo atteigne la position
-  // pince
+  // bras moteur
   myservoY.write(mov_y);
   delay(15);
-// bras tourelle
+  // bras pince
   myservoX1.write(mov_x1);
   delay(15);
-// bras pince
+  // pince
   myservoY1.write(mov_y1);
   delay(15);
 }
